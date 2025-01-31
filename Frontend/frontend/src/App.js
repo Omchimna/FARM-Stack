@@ -15,16 +15,23 @@ function App() {
   }, []); 
 
   const fetchTodos = async () => {
-    setLoading(true); 
+    setLoading(true);
     try {
       const res = await axios.get('/api/todo');
-      setTodolist(res.data);
-      console.log("Todos fetched:", res.data); 
+      if (Array.isArray(res.data)) {  Check if res.data is an array
+        setTodolist(res.data);
+      } else if (res.data === null || res.data === undefined) {
+        console.warn("API returned null or undefined, setting todolist to empty array.");
+        setTodolist([]);
+      } else {
+        console.error("API returned data in unexpected format:", res.data);
+        setTodolist([]);  Or display an error message
+      }
     } catch (error) {
       console.error("Error fetching todos:", error);
-      setTodolist([]); 
+      setTodolist([]);  Set to empty array on error
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
