@@ -15,7 +15,7 @@ function TodoListView(props) {
   return (
     <div>
       <ul>
-        {todolist.map((todo, index) => ( 
+        {todolist.map((todo, index) => (
           <TodoItem key={index} todo={todo} onDelete={onDelete} />
         ))}
       </ul>
