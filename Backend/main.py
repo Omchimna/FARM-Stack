@@ -12,17 +12,17 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# CORS Configuration for Vercel
+
 origins = [
-    "https://farm-stack-omega.vercel.app",  # Your Vercel domain
+    "https://farm-stack-omega.vercel.app", 
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],  # Or specify only the methods you need (e.g., ["GET", "POST", "PUT", "DELETE"])
-    allow_headers=["*"],   # Or specify only the headers you need
+    allow_methods=["*"], 
+    allow_headers=["*"],   
 )
 
 @app.get("/")
