@@ -5,31 +5,28 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const [todolist, setTodolist] = useState(null); 
-  const [loading, setLoading] = useState(true); 
+  const [todolist, setTodolist] = useState([]); 
+  const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
 
   useEffect(() => {
     fetchTodos();
-  }, []); 
+  }, []);
 
   const fetchTodos = async () => {
     setLoading(true);
     try {
       const res = await axios.get('/api/todo');
-      if (Array.isArray(res.data)) {  Check if res.data is an array
+      if (Array.isArray(res.data)) {
         setTodolist(res.data);
-      } else if (res.data === null || res.data === undefined) {
-        console.warn("API returned null or undefined, setting todolist to empty array.");
-        setTodolist([]);
       } else {
-        console.error("API returned data in unexpected format:", res.data);
-        setTodolist([]);  Or display an error message
+        console.warn("API returned non-array data:", res.data);
+        setTodolist([]); 
       }
     } catch (error) {
       console.error("Error fetching todos:", error);
-      setTodolist([]);  Set to empty array on error
+      setTodolist([]); 
     } finally {
       setLoading(false);
     }
@@ -37,7 +34,7 @@ function App() {
 
   const addTodoHandler = async () => {
     try {
-      const res = await axios.post('/api/todo/', { title, description: desc }); 
+      const res = await axios.post('/api/todo/', { title, description: desc });
       setTodolist([...todolist, res.data]);
       setTitle("");
       setDesc("");
@@ -60,7 +57,7 @@ function App() {
       <h1 className="card text-white bg-primary mb-1" style={{ maxWidth: "20rem" }}>Task Manager</h1>
       <h6 className="card text-white bg-primary mb-3">FASTAPI - React - MongoDB</h6>
       <div className="card-body">
-        <TodoView todolist={todolist} loading={loading} onDelete={deleteTodoHandler} /> {/* Pass loading and onDelete */}
+        <TodoView todolist={todolist} loading={loading} onDelete={deleteTodoHandler} />
         <div className="input-group mb-3 mt-3">
           <div className="input-group-prepend">
             <span className="input-group-text" id="inputGroup-sizing-sm">Title</span>
