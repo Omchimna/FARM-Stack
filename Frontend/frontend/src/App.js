@@ -5,7 +5,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const [todolist, setTodolist] = useState([]);
+  const [todolist, setTodolist] = useState(null); // Initialize to null
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
 
