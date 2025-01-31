@@ -5,32 +5,55 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const [todolist, setTodolist] = useState(null); // Initialize to null
+  const [todolist, setTodolist] = useState(null); 
+  const [loading, setLoading] = useState(true); 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
 
   useEffect(() => {
-    axios.get('/api/todo')
-      .then(res => setTodolist(res.data))
-      .catch(error => console.error("Error fetching todos:", error));
-  }, []);
+    fetchTodos();
+  }, []); 
 
-  const addTodoHandler = () => {
-    axios.post('/api/todo/', { 'title': title, 'description': desc })
-      .then(res => {
-        setTodolist([...todolist, res.data]);
-        setTitle("");
-        setDesc("");
-      })
-      .catch(error => console.error("Error adding todo:", error));
+  const fetchTodos = async () => {
+    setLoading(true); 
+    try {
+      const res = await axios.get('/api/todo');
+      setTodolist(res.data);
+      console.log("Todos fetched:", res.data); 
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+      setTodolist([]); 
+    } finally {
+      setLoading(false); 
+    }
+  };
+
+  const addTodoHandler = async () => {
+    try {
+      const res = await axios.post('/api/todo/', { title, description: desc }); 
+      setTodolist([...todolist, res.data]);
+      setTitle("");
+      setDesc("");
+    } catch (error) {
+      console.error("Error adding todo:", error);
+    }
+  };
+
+  const deleteTodoHandler = async (title) => {
+    try {
+      await axios.delete(`/api/todo/${title}`);
+      setTodolist(todolist.filter(todo => todo.title !== title));
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
   };
 
   return (
-    <div className="App list-group-item justify-content-center align-items-center mx-auto" style={{ "width": "400px", "backgroundColor": "white", "marginTop": "80px" }}>
-      <h1 className="card text-white bg-primary mb-1" style={{ "maxWidth": "20rem" }}>Task Manager</h1>
+    <div className="App list-group-item justify-content-center align-items-center mx-auto" style={{ width: "400px", backgroundColor: "white", marginTop: "80px" }}>
+      <h1 className="card text-white bg-primary mb-1" style={{ maxWidth: "20rem" }}>Task Manager</h1>
       <h6 className="card text-white bg-primary mb-3">FASTAPI - React - MongoDB</h6>
       <div className="card-body">
-        <TodoView todolist={todolist} />
+        <TodoView todolist={todolist} loading={loading} onDelete={deleteTodoHandler} /> {/* Pass loading and onDelete */}
         <div className="input-group mb-3 mt-3">
           <div className="input-group-prepend">
             <span className="input-group-text" id="inputGroup-sizing-sm">Title</span>
