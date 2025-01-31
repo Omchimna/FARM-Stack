@@ -1,7 +1,6 @@
+import os
 from fastapi import FastAPI, HTTPException
-
 from model import Todo
-
 from database import (
     fetch_one_todo,
     fetch_all_todos,
@@ -9,22 +8,21 @@ from database import (
     update_todo,
     remove_todo,
 )
-
 from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
 
+# CORS Configuration for Vercel
 origins = [
-    "http://localhost:3000",
+    "https://farm-stack-omega.vercel.app",  # Your Vercel domain
 ]
-
-
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # Or specify only the methods you need (e.g., ["GET", "POST", "PUT", "DELETE"])
+    allow_headers=["*"],   # Or specify only the headers you need
 )
 
 @app.get("/")
@@ -63,3 +61,9 @@ async def delete_todo(title):
     if response:
         return "Successfully deleted todo"
     raise HTTPException(404, f"There is no todo with the title {title}")
+
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT"))  # Get port from Vercel environment
+    uvicorn.run(app=app, host="0.0.0.0", port=port, log_level="info")
