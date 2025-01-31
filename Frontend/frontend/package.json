@@ -40,6 +40,6 @@
     ]
   },
   "engines": {
-    "node": "16.x" // Or try "14.x" if 16.x doesn't work
+    "node": "16.x"
   }
 }
