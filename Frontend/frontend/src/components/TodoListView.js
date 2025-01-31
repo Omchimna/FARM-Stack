@@ -2,9 +2,9 @@ import React from 'react';
 import TodoItem from './Todo';
 
 function TodoListView(props) {
-  const { todolist, onDelete } = props;
+  const { todolist, loading, onDelete } = props; 
 
-  if (todolist === null) { 
+  if (loading) { 
     return <p>Loading tasks...</p>;
   }
 
@@ -15,7 +15,7 @@ function TodoListView(props) {
   return (
     <div>
       <ul>
-        {todolist.map((todo, index) => (
+        {todolist.map((todo, index) => ( 
           <TodoItem key={index} todo={todo} onDelete={onDelete} />
         ))}
       </ul>
