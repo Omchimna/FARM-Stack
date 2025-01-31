@@ -1,8 +1,8 @@
 import motor.motor_asyncio
 from model import Todo
 
-uri = "mongodb+srv://myAtlasDBUser:R3hab%26Kshmr@myatlasclusteredu.grprh.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU&authSource=admin"
-client = motor.motor_asyncio.AsyncIOMotorClient(uri)
+MONGODB_URI = os.environ.get("MONGODB_URI") 
+client = motor.motor_asyncio.AsyncIOMotorClient(MONGODB_URI)
 database = client.TodoList
 collection = database.todo
 
