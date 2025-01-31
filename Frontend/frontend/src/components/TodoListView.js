@@ -1,14 +1,26 @@
-// @bekbrace
-// FARMSTACK Tutorial - Sunday 13.06.2021
+import React from 'react';
+import TodoItem from './Todo';
 
-import TodoItem from './Todo'
+function TodoListView(props) {
+  const { todolist, onDelete } = props;
 
-export default function TodoView(props) {
-    return (
-        <div>
-            <ul>
-                {props.todolist.map(todo => <TodoItem todo={todo} />)}
-            </ul>
-        </div>
-    )
+  if (todolist === null) { 
+    return <p>Loading tasks...</p>;
+  }
+
+  if (todolist && todolist.length === 0) { 
+    return <p>No tasks yet!</p>;
+  }
+
+  return (
+    <div>
+      <ul>
+        {todolist.map((todo, index) => ( 
+          <TodoItem key={index} todo={todo} onDelete={onDelete} />
+        ))}
+      </ul>
+    </div>
+  );
 }
+
+export default TodoListView;
