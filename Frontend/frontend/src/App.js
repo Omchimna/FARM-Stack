@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import TodoView from './components/TodolistView';
+import TodoView from './components/TodoListView';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
