@@ -1,11 +1,11 @@
 {
   "version": 2,
   "builds": [
-    { "src": "server/main.py", "use": "@vercel/python" },  
-    { "src": "client", "use": "@vercel/react" } 
+    { "src": "Backend/main.py", "use": "@vercel/python" },
+    { "src": "Frontend/frontend", "use": "@vercel/react" } 
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "server/main.py" }, 
-    { "src": "/(.*)", "dest": "client" } 
+    { "src": "/api/(.*)", "dest": "Backend/main.py" },
+    { "src": "/(.*)", "dest": "Frontend/frontend" }
   ]
 }
