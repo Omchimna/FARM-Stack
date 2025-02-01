@@ -65,5 +65,4 @@ async def delete_todo(title):
 
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.environ.get("PORT"))  # Get port from Vercel environment
-    uvicorn.run(app=app, host="0.0.0.0", port=port, log_level="info")
+    uvicorn.run(app, host="0.0.0.0", port=8000)  
